@@ -20,11 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${raleway.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-          {/* <Navbar /> */}
-          <main className="bg-gray-50 min-h-screen">{children}</main>
-          {/* <Footer /> */}
+    <html lang="en">
+      <body className={`${raleway.variable} h-full antialiased`}>
+        {/* <Navbar /> */}
+        <main>{children}</main>
+        {/* <Footer /> */}
       </body>
     </html>
   );
