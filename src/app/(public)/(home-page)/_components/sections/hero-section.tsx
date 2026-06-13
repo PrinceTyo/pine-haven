@@ -1,18 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative min-h-screen flex justify-center items-center px-0 lg:px-20 text-white"
-      style={{
-        backgroundImage: `url(./hero.png)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <section className="relative min-h-screen flex items-center justify-center text-white">
+      <Image
+        src="/hero.png"
+        alt="Hero"
+        fill
+        priority
+        className="object-cover"
+      />
+
       <div className="absolute inset-0 bg-black/50"></div>
 
       <div className="z-10 max-w-xl px-5 lg:px-0 h-screen flex flex-col lg:flex-row justify-center">

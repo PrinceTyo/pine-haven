@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
-// import Navbar from "@/components/navbar/navbar";
-// import Footer from "@/components/footer";
+import { Raleway, Geist } from "next/font/google";
 import "@/styles/globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const raleway = Raleway({
   variable: "--font-raleway",
@@ -20,11 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${raleway.variable} h-full antialiased`}>
-        {/* <Navbar /> */}
         <main>{children}</main>
-        {/* <Footer /> */}
       </body>
     </html>
   );

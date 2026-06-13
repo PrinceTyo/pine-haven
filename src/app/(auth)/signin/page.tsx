@@ -1,12 +1,23 @@
 import { FaG } from "react-icons/fa6";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign In",
 };
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const session = await auth();
+
+  if (session) {
+    if (session.user.role === "admin") {
+      redirect("/admin/dashboard");
+    }
+
+    redirect("/");
+  }
+
   return (
     <div className="min-h-screen flex items-center">
       <div className="bg-white w-96 mx-auto rounded-sm shadow p-8">
