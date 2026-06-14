@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, BedDouble, CalendarDays } from "lucide-react";
+import { LayoutDashboard, BedDouble, CalendarDays, Mail } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -29,8 +29,13 @@ const navItems = [
   },
   {
     title: "Rooms",
-    href: "/admin/rooms",
+    href: "/admin/room",
     icon: BedDouble,
+  },
+  {
+    title: "Contacts",
+    href: "contact",
+    icon: Mail,
   },
 ];
 

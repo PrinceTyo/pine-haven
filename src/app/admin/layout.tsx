@@ -23,8 +23,12 @@ export default async function AdminLayout({
     <TooltipProvider>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarTrigger />
-        <div className="p-6">{children}</div>
+
+        <main className="flex-1">
+          <SidebarTrigger />
+
+          <div className="p-6">{children}</div>
+        </main>
       </SidebarProvider>
     </TooltipProvider>
   );
