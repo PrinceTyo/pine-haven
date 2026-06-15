@@ -20,8 +20,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.role = token.role;
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
-    },
   },
 });

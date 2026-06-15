@@ -1,21 +1,23 @@
 import { FaG } from "react-icons/fa6";
-import { auth, signIn } from "@/auth";
+import { signIn } from "@/auth";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign In",
 };
 
-export default async function SignInPage() {
-  const session = await auth();
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ redirect_url?: string }>;
+}) {
+  const params = (await searchParams)?.redirect_url;
 
-  if (session) {
-    if (session.user.role === "admin") {
-      redirect("/admin/dashboard");
-    }
-
-    redirect("/");
+  let redirectUrl;
+  if (!params) {
+    redirectUrl = "/";
+  } else {
+    redirectUrl = `/${params}`;
   }
 
   return (
@@ -29,7 +31,7 @@ export default async function SignInPage() {
           <form
             action={async () => {
               "use server";
-              await signIn("google");
+              await signIn("google", { redirectTo: redirectUrl });
             }}
           >
             <button className="flex items-center justify-center gap-2 w-full bg-blue-700 text-white font-medium py-3 px-6 text-base rounded-sm hover:bg-blue-600 cursor-pointer">
