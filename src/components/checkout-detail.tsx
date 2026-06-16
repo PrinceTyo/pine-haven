@@ -2,6 +2,7 @@ import { getReservationById } from "@/lib/data";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { differenceInCalendarDays } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function CheckoutDetail({
   reservationId,
@@ -45,7 +46,16 @@ export default async function CheckoutDetail({
           </div>
         </div>
         {/* Payment Button */}
-        {/* <PaymentButton reservation={reservation} /> */}
+        <div className="mt-4">
+          <Link
+            href={reservation.Payment.invoiceUrl!}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full bg-orange-500 text-white text-center py-3 rounded-md font-semibold hover:bg-orange-600"
+          >
+            Pay Now
+          </Link>
+        </div>
       </div>
       <div className="border border-gray-200 px-3 py-5 bg-white rounded-sm">
         <table className="w-full">

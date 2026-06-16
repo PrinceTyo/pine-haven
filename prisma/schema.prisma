@@ -52,9 +52,12 @@ model Reservation {
 
 model Payment {
   id            String      @id @default(cuid())
+  invoiceId     String?     @unique
+  invoiceUrl    String?
   method        String?
   amount        Int
   status        String      @default("unpaid")
+  paidAt        DateTime?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   reservationId String      @unique
