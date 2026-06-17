@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 // import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar/navbar";
+import "@/styles/globals.css";
 
 export default function MainLayout({
   children,
@@ -12,7 +13,7 @@ export default function MainLayout({
       <Suspense fallback={<p>Loading ...</p>}>
         <Navbar />
       </Suspense>
-      {children}
+      <main>{children}</main>
       <Suspense fallback={<p>Loading ...</p>}>{/* <Footer/> */}</Suspense>
     </>
   );
