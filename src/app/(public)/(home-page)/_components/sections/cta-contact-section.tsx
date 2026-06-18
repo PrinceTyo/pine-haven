@@ -17,9 +17,9 @@ export default function CtaContactSection() {
         <h2 className="text-3xl md:text-5xl text-white font-medium">
           Have Questions Or Feedback?
         </h2>
-        <Link href="/room">
+        <Link href="/contact">
           <button className="mt-6 cursor-pointer flex items-center gap-2 py-3 px-8 bg-transparent border border-white text-white text-md hover:bg-primary hover:border hover:border-primary hover:text-white transition duration-200">
-            Explore More <IoIosArrowForward />
+            Contact Us <IoIosArrowForward />
           </button>
         </Link>
       </div>
