@@ -19,7 +19,7 @@ export default function AboutSection() {
           <div className="w-1/2 relative z-10">
             <div className="min-w-fit p-12 -ml-10 mt-10 bg-white shadow-lg border border-gray-100 space-y-4">
               <p className="tracking-widest uppercase">Welcome To Pine Haven</p>
-              <h2 className="text-5xl font-bold uppercase">
+              <h2 className="text-5xl font-semibold uppercase">
                 Innovative Ideas Stylish Design
               </h2>
               <p className="mt-2">
