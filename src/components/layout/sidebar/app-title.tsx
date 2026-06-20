@@ -20,10 +20,9 @@ export function AppTitle() {
             <Link
               href="/"
               onClick={() => setOpenMobile(false)}
-              className="grid flex-1 text-start text-sm leading-tight"
+              className="text-start text-lg leading-tight"
             >
-              <span className="truncate font-bold">Shop</span>
-              <span className="truncate text-xs">Meichu</span>
+              <span className="truncate font-bold">Pine Haven</span>
             </Link>
           </div>
         </SidebarMenuButton>

@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getAvatarInitials(username: string): string {
+export const getAvatarInitials = (username?: string | null) => {
   if (!username) return "";
   const cleaned = username.trim();
   if (!cleaned) return "";
@@ -17,7 +17,7 @@ export function getAvatarInitials(username: string): string {
     return cleaned[0].toUpperCase();
   }
   return (cleaned[0] + cleaned[1]).toUpperCase();
-}
+};
 
 export const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);

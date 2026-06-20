@@ -22,7 +22,7 @@ export default async function AdminLayout({
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar session={session} />
 
         <main className="flex-1">
           <SidebarTrigger />

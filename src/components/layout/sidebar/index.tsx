@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppTitle } from "./app-title";
 import { NavUser } from "./nav-user";
+import { Session } from "next-auth";
 
 const navItems = [
   {
@@ -39,16 +40,17 @@ const navItems = [
   },
 ];
 
-export default function AppSidebar() {
+export default function AppSidebar({ session }: { session: Session | null }) {
   const pathname = usePathname();
+
   return (
     <Sidebar className="rounded-lg!">
       <SidebarHeader>
         <AppTitle />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="">
         <div className="px-3 py-4">
-          <SidebarMenu className="space-y-2">
+          <SidebarMenu className="space-y-3">
             {navItems.map((item) => {
               const isActive =
                 item.href === "/admin"
@@ -60,9 +62,12 @@ export default function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     isActive={isActive}
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-sm transition-all duration-200
+                              hover:bg-gray-100
+                              data-[active=true]:bg-red-500!
+                              data-[active=true]:text-white!"
                   >
-                    <Link href={item.href} className="flex items-center gap-3">
+                    <Link href={item.href} className="flex items-center gap-4">
                       <item.icon className="size-5" />
                       <span className="font-medium text-md">{item.title}</span>
                     </Link>
@@ -74,7 +79,7 @@ export default function AppSidebar() {
         </div>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <NavUser session={session} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
