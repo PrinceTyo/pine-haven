@@ -11,13 +11,22 @@ model Room {
   id            String          @id @default(cuid())
   name          String
   description   String          @db.Text
-  image         String
   price         Int
   capacity      Int             @default(1)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   RoomAmenities RoomAmenities[]
   Reservation   Reservation[]
+  RoomImages    RoomImage[]
+}
+
+model RoomImage {
+  id        String   @id @default(cuid())
+  image     String
+  roomId    String
+  Room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Amenities {

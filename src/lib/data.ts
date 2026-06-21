@@ -14,10 +14,15 @@ export const getAmenities = async () => {
   }
 };
 
-export const getRooms = async () => {
+export const getRooms = async (sort?: string) => {
   try {
     const result = await prisma.room.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy:
+        sort === "name"
+          ? { name: "asc" }
+          : sort === "price"
+            ? { price: "asc" }
+            : { createdAt: "desc" },
     });
     return result;
   } catch (error) {

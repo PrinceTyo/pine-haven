@@ -2,7 +2,13 @@ import RoomTable from "@/components/table/room-table";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default function RoomPage() {
+export default async function RoomPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string }>;
+}) {
+  const { sort } = await searchParams;
+
   return (
     <div className="w-full px-4 py-4">
       <div className="flex items-center justify-between">
@@ -15,7 +21,7 @@ export default function RoomPage() {
         </Link>
       </div>
       <Suspense fallback={<p>Loading Data....</p>}>
-        <RoomTable />
+        <RoomTable sort={sort} />
       </Suspense>
     </div>
   );
