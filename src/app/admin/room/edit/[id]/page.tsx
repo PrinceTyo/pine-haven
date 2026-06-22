@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import EditForm from "./_components/edit-form";
-import { getAmenities, getRoomById } from "@/lib/data";
+import { getAmenities } from "@/lib/data/amenities";
+import { getRoomById } from "@/lib/data/room";
 
 export default async function UpdateRoomPage({
   params,

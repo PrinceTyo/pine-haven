@@ -1,4 +1,4 @@
-import { getAmenities } from "@/lib/data";
+import { getAmenities } from "@/lib/data/amenities";
 import CreateForm from "./_components/create-form";
 
 export default async function CreateRoomPage() {

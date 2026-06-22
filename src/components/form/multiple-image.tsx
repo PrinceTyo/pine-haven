@@ -30,6 +30,11 @@ interface FileUploadItem extends FileWithPreview {
   error?: string;
 }
 
+interface RoomImageInput {
+  image: string;
+  size: number;
+}
+
 interface ProgressUploadProps {
   maxFiles?: number;
   maxSize?: number;
@@ -37,8 +42,8 @@ interface ProgressUploadProps {
   multiple?: boolean;
   className?: string;
   simulateUpload?: boolean;
-  images: string[];
-  setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  images: RoomImageInput[];
+  setImages: React.Dispatch<React.SetStateAction<RoomImageInput[]>>;
 }
 
 export function Pattern({
@@ -65,10 +70,13 @@ export function Pattern({
       throw new Error(data.message);
     }
 
-    return data.imageUrl;
+    return {
+      image: data.imageUrl,
+      size: file.size,
+    };
   };
 
-  const [uploadFiles, setUploadFiles] = useState<FileUploadItem[]>([]);
+  const [customErrors, setCustomErrors] = useState<string[]>([]);
 
   const [
     { isDragging, errors },
@@ -88,6 +96,15 @@ export function Pattern({
     accept,
     multiple,
     onFilesAdded: async (addedFiles) => {
+      const totalImages = images.length + addedFiles.length;
+
+      if (totalImages > maxFiles) {
+        setCustomErrors([
+          `You can only upload a maximum of ${maxFiles} images.`,
+        ]);
+        return;
+      }
+
       const pendingFiles: FileUploadItem[] = addedFiles.map((item) => ({
         id: item.id,
         file: item.file as File,
@@ -98,11 +115,11 @@ export function Pattern({
 
       setUploadFiles((prev) => [...prev, ...pendingFiles]);
 
-      const uploadedUrls = await Promise.all(
+      const uploadedImages = await Promise.all(
         addedFiles.map((item) => uploadFile(item.file as File)),
       );
 
-      setImages((prev) => [...prev, ...uploadedUrls]);
+      setImages((prev) => [...prev, ...uploadedImages]);
 
       setUploadFiles((prev) =>
         prev.map((file) => {
@@ -112,7 +129,7 @@ export function Pattern({
 
           return {
             ...file,
-            preview: uploadedUrls[index],
+            preview: uploadedImages[index].image,
           };
         }),
       );
@@ -175,20 +192,22 @@ export function Pattern({
     );
   };
 
-  const deleteImage = async (imageUrl: string, fileId: string) => {
-    await fetch(`/api/upload?imageUrl=${encodeURIComponent(imageUrl)}`, {
-      method: "DELETE",
-    });
+  const deleteImage = async (imageUrl: string | undefined, fileId: string) => {
+    if (imageUrl) {
+      await fetch(`/api/upload?imageUrl=${encodeURIComponent(imageUrl)}`, {
+        method: "DELETE",
+      });
+      setImages((prev) => prev.filter((img) => img.image !== imageUrl));
+    }
 
-    setImages((prev) => prev.filter((img) => img !== imageUrl));
     setUploadFiles((prev) => prev.filter((file) => file.id !== fileId));
     removeFile(fileId);
   };
 
   const handleClearAll = async () => {
     await Promise.all(
-      images.map((imageUrl) =>
-        fetch(`/api/upload?imageUrl=${encodeURIComponent(imageUrl)}`, {
+      images.map((item) =>
+        fetch(`/api/upload?imageUrl=${encodeURIComponent(item.image)}`, {
           method: "DELETE",
         }),
       ),
@@ -198,6 +217,20 @@ export function Pattern({
     setUploadFiles([]);
     setImages([]);
   };
+
+  const [uploadFiles, setUploadFiles] = useState<FileUploadItem[]>(() =>
+    images.map((item, index) => ({
+      id: `existing-${index}`,
+      file: {
+        name: item.image.split("/").pop() || "image",
+        size: item.size,
+        type: "image/jpeg",
+      } as File,
+      preview: item.image,
+      progress: 100,
+      status: "completed" as const,
+    })),
+  );
 
   const completedCount = uploadFiles.filter(
     (f) => f.status === "completed",
@@ -369,12 +402,12 @@ export function Pattern({
       )}
 
       {/* Error Messages */}
-      {errors.length > 0 && (
+      {(errors.length > 0 || customErrors.length > 0) && (
         <Alert variant="destructive" className="mt-5">
           <CircleAlertIcon />
           <AlertTitle>File upload error(s)</AlertTitle>
           <AlertDescription>
-            {errors.map((error, index) => (
+            {[...errors, ...customErrors].map((error, index) => (
               <p key={index} className="last:mb-0">
                 {error}
               </p>

@@ -1,13 +1,13 @@
-import { getRooms } from "@/lib/data";
-// import Image from "next/image";
+import { getRooms } from "@/lib/data/room";
+import Image from "next/image";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 import { IoPencil, IoTrashOutline } from "react-icons/io5";
-// import { deleteRoom } from "@/lib/actions";
 import { ArrowUpDown } from "lucide-react";
+import { deleteRoom } from "@/lib/action/room";
 
 export default async function RoomTable({ sort }: { sort?: string }) {
-  const rooms = await getRooms(sort);
+  const rooms = await getRooms();
   if (!rooms?.length) return <p>No Room Found</p>;
 
   return (
@@ -49,13 +49,13 @@ export default async function RoomTable({ sort }: { sort?: string }) {
             <tr className="hover:bg-gray-100" key={room.id}>
               <td className="px-6 py-4">
                 <div className="h-20 w-32 relative">
-                  {/* <Image
-                    src={room.image}
+                  <Image
+                    src={room.RoomImages[0]?.image || "/no-image.jpg"}
                     fill
                     sizes="20vw"
                     alt="room image"
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
               </td>
               <td className="px-6 py-4">{room.name}</td>
@@ -71,14 +71,14 @@ export default async function RoomTable({ sort }: { sort?: string }) {
                   >
                     <IoPencil className="size-5" />
                   </Link>
-                  {/* <form action={deleteRoom.bind(null, room.id)}>
+                  <form action={deleteRoom.bind(null, room.id)}>
                     <button
                       type="submit"
                       className="rounded-sm p-1 hover:bg-gray-200 cursor-pointer"
                     >
                       <IoTrashOutline className="size-5" />
                     </button>
-                  </form> */}
+                  </form>
                 </div>
               </td>
             </tr>

@@ -23,6 +23,7 @@ model Room {
 model RoomImage {
   id        String   @id @default(cuid())
   image     String
+  size      Int
   roomId    String
   Room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
