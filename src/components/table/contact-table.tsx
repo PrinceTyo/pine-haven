@@ -1,5 +1,7 @@
 import { getContacts } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
+import { IoMdEye } from "react-icons/io";
 
 export default async function ContactTable() {
   const contacts = await getContacts();
@@ -37,22 +39,14 @@ export default async function ContactTable() {
                 {formatDate(contact.createdAt.toString())}
               </td>
               <td className="px-6 py-4 text-right">
-                {/* <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Link
-                    href={`/admin/room/edit/${room.id}`}
+                    href={`/admin/contact/detail/${contact.id}`}
                     className="rounded-sm p-1 hover:bg-gray-200"
                   >
-                    <IoPencil className="size-5" />
+                    <IoMdEye className="size-5" />
                   </Link>
-                  <form action={deleteRoom.bind(null, room.id)}>
-                    <button
-                      type="submit"
-                      className="rounded-sm p-1 hover:bg-gray-200 cursor-pointer"
-                    >
-                      <IoTrashOutline className="size-5" />
-                    </button>
-                  </form>
-                </div> */}
+                </div>
               </td>
             </tr>
           ))}

@@ -35,7 +35,7 @@ const navItems = [
   },
   {
     title: "Contacts",
-    href: "contact",
+    href: "/admin/contact",
     icon: Mail,
   },
 ];
