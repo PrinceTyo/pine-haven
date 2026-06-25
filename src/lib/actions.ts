@@ -126,6 +126,8 @@ export const createReserve = async (
         amount: total,
         currency: "IDR",
         description: `Reservation ${result.reservation.id}`,
+        successRedirectUrl: `${process.env.NEXT_PUBLIC_URL}/payment/success?reservationId=${result.reservation.id}`,
+        failureRedirectUrl: `${process.env.NEXT_PUBLIC_URL}/payment/failed?reservationId=${result.reservation.id}`,
       },
     });
 

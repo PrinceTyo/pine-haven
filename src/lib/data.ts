@@ -60,7 +60,6 @@ export const getReservationById = async (id: string) => {
         Room: {
           select: {
             name: true,
-            image: true,
             price: true,
           },
         },

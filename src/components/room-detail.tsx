@@ -15,14 +15,14 @@ export default async function RoomDetail({ roomId }: { roomId: string }) {
   return (
     <div className="max-w-7xl py-16 px-4 grid lg:grid-cols-12 gap-8 mx-auto">
       <div className="md:col-span-8">
-        <Image
+        {/* <Image
           src={room.image}
           alt={room.name}
           width={770}
           height={430}
           priority
           className="w-full rounded-sm mb-8"
-        />
+        /> */}
         <h1 className="text-5xl font-semibold text-gray-900 mb-8">
           {room.name}
         </h1>

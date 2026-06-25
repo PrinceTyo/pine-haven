@@ -1,5 +1,5 @@
 import RoomCard from "@/components/card/room-card";
-import { getRooms } from "@/lib/data";
+import { getRooms } from "@/lib/data/room";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoIosArrowForward } from "react-icons/io";

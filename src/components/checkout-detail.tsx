@@ -23,13 +23,13 @@ export default async function CheckoutDetail({
       <div className="order-2">
         <div className="flex flex-col mb-3 items-start bg-white border border-gray-200 rounded-sm md:flex-row md:w-full">
           <div className="aspect-video relative">
-            <Image
+            {/* <Image
               src={reservation.Room.image}
               width={500}
               height={300}
               className="object-cover w-full rounded-t-sm aspect-videomd:rounded-none md:rounded-s-sm"
               alt="image"
-            />
+            /> */}
           </div>
           <div className="flex flex-col justify-between p-4 leading-normal w-full">
             <h5 className="mb-1 text-4xl font-bold tracking-tight text-gray-900">
@@ -48,12 +48,18 @@ export default async function CheckoutDetail({
         {/* Payment Button */}
         <div className="mt-4">
           <Link
-            href={reservation.Payment.invoiceUrl!}
-            target="_blank"
+            href={
+              reservation.Payment?.status === "paid"
+                ? "/myreservation"
+                : reservation.Payment?.invoiceUrl || "#"
+            }
+            target={reservation.Payment?.status === "paid" ? "_self" : "_blank"}
             rel="noopener noreferrer"
             className="inline-block w-full bg-orange-500 text-white text-center py-3 rounded-md font-semibold hover:bg-orange-600"
           >
-            Pay Now
+            {reservation.Payment?.status === "paid"
+              ? "Go to My Reservation"
+              : "Pay Now"}
           </Link>
         </div>
       </div>
