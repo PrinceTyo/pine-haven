@@ -13,6 +13,7 @@ export type RoomProps = Prisma.RoomGetPayload<{
 
 export type RoomDetailProps = Prisma.RoomGetPayload<{
   include: {
+    RoomImages: true;
     RoomAmenities: {
       include: {
         Amenities: {

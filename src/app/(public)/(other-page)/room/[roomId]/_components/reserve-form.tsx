@@ -6,7 +6,7 @@ import { addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import clsx from "clsx";
-import { createReserve } from "@/lib/actions";
+import { createReserve } from "@/lib/action/reservation";
 
 import { Input } from "@/components/ui/input";
 import {

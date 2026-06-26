@@ -1,5 +1,5 @@
 import ReserveForm from "@/app/(public)/(other-page)/room/[roomId]/_components/reserve-form";
-import { getDisabledRoomById, getRoomDetailById } from "@/lib/data";
+import { getDisabledRoomById, getRoomDetailById } from "@/lib/data/room";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { notFound } from "next/navigation";

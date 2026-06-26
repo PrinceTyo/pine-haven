@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoPeopleOutline } from "react-icons/io5";
 import { Separator } from "../ui/separator";
+import { RoomProps } from "@/types/room";
 
-export default function RoomCard({ room }: { room: Room }) {
+export default function RoomCard({ room }: { room: RoomProps }) {
   return (
     <div className="border border-gray-100 shadow-md">
       <div>
         <Image
-          src={room.image}
+          src={room.RoomImages[0]?.image}
           width={456}
           height={384}
           alt="Image Room"

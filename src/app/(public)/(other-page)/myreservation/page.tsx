@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
-import { getReservationByUserId } from "@/lib/data";
+import { getReservationByUserId } from "@/lib/data/reservation";
+import { getUserById } from "@/lib/data/user";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { differenceInCalendarDays } from "date-fns";
 import Image from "next/image";
@@ -8,8 +9,12 @@ import { notFound, redirect } from "next/navigation";
 
 export default async function MyReservationPage() {
   const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/signin");
+  }
+  const user = await getUserById(session.user.id);
   const reservation = await getReservationByUserId();
-  if (!session || !session.user) redirect("/signin");
+  if (!user) redirect("/signin");
   if (!reservation) return notFound();
 
   return (
@@ -17,9 +22,7 @@ export default async function MyReservationPage() {
       <div className="max-w-5xl mx-auto mt-10 py-20 px-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl text-gray-800 mt-2">
-              Hi, {session.user.name}
-            </h3>
+            <h3 className="text-xl text-gray-800 mt-2">Hi, {user.name}</h3>
             <p className="mt-1 font-medium mb-4">
               Here&apos;s your book history :
             </p>
@@ -44,13 +47,13 @@ export default async function MyReservationPage() {
                   </div>
                 </div>
                 <div className="flex flex-col mb-4 items-start bg-white rounded-sm md:flex-row md:w-full">
-                  <Image
+                  {/* <Image
                     src={item.Room.image}
                     width={500}
                     height={300}
                     className="object-cover w-full rounded-t-sm h-60 md:h-auto md:w-1/3 md:rounded-none md:rounded-s-sm"
                     alt="image room"
-                  />
+                  /> */}
                   <div className="flex items-center gap-1 mb-3 font-normal text-gray-700 w-full">
                     <div className="w-full">
                       <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">

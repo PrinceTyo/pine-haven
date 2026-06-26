@@ -1,4 +1,4 @@
-import { getReservationById } from "@/lib/data";
+import { getReservationById } from "@/lib/data/reservation";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { differenceInCalendarDays } from "date-fns";
 import Image from "next/image";
