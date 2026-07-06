@@ -69,7 +69,12 @@ export default function ReserveForm({
       <Field>
         <FieldLabel>Your Name</FieldLabel>
         <FieldContent>
-          <Input name="name" placeholder="Full Name..." autoComplete="off" />
+          <Input
+            name="name"
+            placeholder="Full Name..."
+            autoComplete="off"
+            className="rounded-md! bg-white! h-10! border border-gray-200"
+          />
         </FieldContent>
         <FieldError>{state?.error?.name}</FieldError>
       </Field>
@@ -81,6 +86,7 @@ export default function ReserveForm({
             name="phone"
             placeholder="Phone Number..."
             autoComplete="off"
+            className="rounded-md! bg-white! h-10! border border-gray-200"
           />
         </FieldContent>
         <FieldError>{state?.error?.phone}</FieldError>

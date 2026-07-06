@@ -46,7 +46,7 @@ export default async function RoomDetail({ roomId }: { roomId: string }) {
         </div>
 
         <div className="md:col-span-4">
-          <div className="border-2 border-gray-300 border-dashed px-3 py-5 bg-slate-50 rounded-md">
+          <div className="border border-gray-300 px-3 py-5 bg-slate-50 rounded-md">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-2">
                 <IoPeopleOutline className="size-4" />
