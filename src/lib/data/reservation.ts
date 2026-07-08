@@ -74,9 +74,8 @@ export const getReservationByUserId = async () => {
       where: { userId: session.user.id },
       include: {
         Room: {
-          select: {
-            name: true,
-            price: true,
+          include: {
+            RoomImages: true,
           },
         },
         User: {

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import HeaderPage from "@/components/header/header-page";
 import { getReservationByUserId } from "@/lib/data/reservation";
 import { getUserById } from "@/lib/data/user";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -6,6 +7,52 @@ import { differenceInCalendarDays } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+
+const STATUS_STYLE: Record<string, { label: string; className: string }> = {
+  paid: {
+    label: "Lunas",
+    className: "border-[#56705B] text-[#3E5240] bg-[#56705B]/[0.08]",
+  },
+  unpaid: {
+    label: "Belum Dibayar",
+    className: "border-[#9B4630] text-[#7A3625] bg-[#9B4630]/[0.08]",
+  },
+  pending: {
+    label: "Menunggu Konfirmasi",
+    className: "border-[#AD8148] text-[#8C6A38] bg-[#AD8148]/[0.08]",
+  },
+};
+
+function StatusStamp({ status }: { status?: string }) {
+  const style = STATUS_STYLE[status ?? ""] ?? {
+    label: status ?? "Tidak diketahui",
+    className: "border-gray-400 text-gray-600 bg-gray-50",
+  };
+  return (
+    <span
+      className={`inline-block -rotate-3 select-none rounded-sm border-2 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${style.className}`}
+    >
+      {style.label}
+    </span>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-[#1C2B3A]/20 bg-white py-20 text-center">
+      <p className="font-serif text-lg text-[#1C2B3A]">Belum ada pemesanan</p>
+      <p className="mt-1 max-w-sm text-sm text-[#1C2B3A]/60">
+        Setiap kali Anda memesan kamar, tiketnya akan muncul di sini.
+      </p>
+      <Link
+        href="/rooms"
+        className="mt-6 rounded-sm bg-[#1C2B3A] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#2A3D50] focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-[#AD8148]"
+      >
+        Cari kamar
+      </Link>
+    </div>
+  );
+}
 
 export default async function MyReservationPage() {
   const session = await auth();
@@ -18,97 +65,129 @@ export default async function MyReservationPage() {
   if (!reservation) return notFound();
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-5xl mx-auto mt-10 py-20 px-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-xl text-gray-800 mt-2">Hi, {user.name}</h3>
-            <p className="mt-1 font-medium mb-4">
-              Here&apos;s your book history :
+    <>
+      <HeaderPage
+        title="My Reservation"
+        subtitle="Lorem ipsum dolor sit amet."
+      />
+      <div className="min-h-screen bg-[#F4F5F2]">
+        <div className="mx-auto max-w-5xl px-4 py-16 sm:py-20">
+          <header className="mb-10">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#1C2B3A]/50">
+              Riwayat Pemesanan
             </p>
-          </div>
-        </div>
-        <div className="rounded-sm">
-          <div>
-            {reservation.map((item) => (
-              <div
-                className="bg-white shadow pb-4 mb-4 md:pb-0 relative"
-                key={item.id}
-              >
-                <div className="flex items-center justify-between bg-gray-100 px-2 py-1 rounded-t-sm">
-                  <h1 className="text-sm font-medium text-gray-900 truncate">
-                    Reservation ID: #{item.id}
-                  </h1>
-                  <div className="flex gap-1 px-3 py-2 text-sm font-normal">
-                    <span>Status:</span>
-                    <span className="font-bold uppercase">
-                      {item.Payment?.status}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col mb-4 items-start bg-white rounded-sm md:flex-row md:w-full">
-                  {/* <Image
-                    src={item.Room.image}
-                    width={500}
-                    height={300}
-                    className="object-cover w-full rounded-t-sm h-60 md:h-auto md:w-1/3 md:rounded-none md:rounded-s-sm"
-                    alt="image room"
-                  /> */}
-                  <div className="flex items-center gap-1 mb-3 font-normal text-gray-700 w-full">
-                    <div className="w-full">
-                      <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">
-                        <span>Price</span>
-                        <span>{formatCurrency(item.price)}</span>
+            <h1 className="mt-1 font-serif text-3xl text-[#1C2B3A]">
+              Halo, {user.name}
+            </h1>
+          </header>
+
+          {reservation.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <div className="flex flex-col gap-6">
+              {reservation.map((item) => {
+                const nights = differenceInCalendarDays(
+                  item.endDate,
+                  item.startDate,
+                );
+                const isUnpaid = item.Payment?.status === "unpaid";
+
+                return (
+                  <div
+                    key={item.id}
+                    className="flex flex-col overflow-hidden rounded-sm border border-[#1C2B3A]/8 bg-white shadow-sm sm:flex-row"
+                  >
+                    <div className="flex flex-1 flex-col sm:flex-row">
+                      <div className="relative h-40 w-full shrink-0 bg-[#1C2B3A]/5 sm:h-auto sm:w-40">
+                        {item.Room.RoomImages.length > 0 ? (
+                          <Image
+                            src={item.Room.RoomImages[0].image}
+                            fill
+                            className="object-cover"
+                            alt={item.Room.name}
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-[11px] uppercase tracking-wider text-[#1C2B3A]/30">
+                            Tanpa foto
+                          </div>
+                        )}
                       </div>
-                      <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">
-                        <span>Arrival</span>
-                        <span>{formatDate(item.startDate.toISOString())}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">
-                        <span>Departure</span>
-                        <span>{formatDate(item.endDate.toISOString())}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">
-                        <span>Duration</span>
-                        <span>
-                          {differenceInCalendarDays(
-                            item.endDate,
-                            item.startDate,
-                          )}
-                          <span className="ml-1">Night</span>
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm font-medium text-gray-900 truncate">
-                        <span>Sub Total</span>
-                        <span>
-                          {item.Payment && formatCurrency(item.Payment.amount)}
-                        </span>
+
+                      <div className="flex flex-1 flex-col justify-between gap-4 p-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="font-mono text-[11px] uppercase tracking-wider text-[#1C2B3A]/45">
+                              Reservasi #{item.id}
+                            </p>
+                            <h2 className="mt-1 font-serif text-lg text-[#1C2B3A]">
+                              {item.Room?.name ?? "Kamar"}
+                            </h2>
+                          </div>
+                          <StatusStamp status={item.Payment?.status} />
+                        </div>
+
+                        <dl className="grid grid-cols-3 gap-x-4 gap-y-2 font-mono text-[13px]">
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-[#1C2B3A]/40">
+                              Check-in
+                            </dt>
+                            <dd className="text-[#1C2B3A]">
+                              {formatDate(item.startDate.toISOString())}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-[#1C2B3A]/40">
+                              Check-out
+                            </dt>
+                            <dd className="text-[#1C2B3A]">
+                              {formatDate(item.endDate.toISOString())}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-[#1C2B3A]/40">
+                              Durasi
+                            </dt>
+                            <dd className="text-[#1C2B3A]">{nights} Malam</dd>
+                          </div>
+                        </dl>
                       </div>
                     </div>
+
+                    {/* desktop */}
+                    <div className="relative hidden w-0 shrink-0 border-l border-dashed border-[#1C2B3A]/20 before:absolute before:-top-2.5 before:-left-2.5 before:h-5 before:w-5 before:rounded-full before:bg-[#F4F5F2] before:content-[''] after:absolute after:-bottom-2.5 after:-left-2.5 after:h-5 after:w-5 after:rounded-full after:bg-[#F4F5F2] after:content-[''] sm:block" />
+                    {/* mobile */}
+                    <div className="relative h-0 shrink-0 border-t border-dashed border-[#1C2B3A]/20 before:absolute before:-top-2.5 before:-left-2.5 before:h-5 before:w-5 before:rounded-full before:bg-[#F4F5F2] before:content-[''] after:absolute after:-top-2.5 after:-right-2.5 after:h-5 after:w-5 after:rounded-full after:bg-[#F4F5F2] after:content-[''] sm:hidden" />
+
+                    <div className="flex shrink-0 flex-row items-center justify-between gap-4 bg-[#1C2B3A] px-5 py-4 text-white sm:w-48 sm:flex-col sm:items-stretch sm:justify-center sm:py-5">
+                      <div className="sm:text-center">
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-white/50">
+                          Subtotal
+                        </p>
+                        <p className="mt-0.5 font-mono text-lg">
+                          {item.Payment
+                            ? formatCurrency(item.Payment.amount)
+                            : formatCurrency(item.price)}
+                        </p>
+                      </div>
+
+                      <Link
+                        href={
+                          isUnpaid
+                            ? `/checkout/${item.id}`
+                            : `/myreservation/${item.id}`
+                        }
+                        className="rounded-sm bg-[#AD8148] px-4 py-2 text-center text-sm font-medium text-[#1C2B3A] transition hover:bg-[#C4964F] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
+                      >
+                        {isUnpaid ? "Bayar Sekarang" : "Lihat Detail"}
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-end justify-end">
-                  {item.Payment?.status === "unpaid" ? (
-                    <Link
-                      href={`/checkout/${item.id}`}
-                      className="px-6 py-1 bg-orange-400 text-white rounded-md hover:bg-orange-500"
-                    >
-                      Pay Now
-                    </Link>
-                  ) : (
-                    <Link
-                      href={`/myreservation/${item.id}`}
-                      className="px-6 py-1 bg-orange-400 text-white rounded-md hover:bg-orange-500"
-                    >
-                      View Detail
-                    </Link>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
