@@ -43,9 +43,8 @@ export const getReservationById = async (id: string) => {
       where: { id },
       include: {
         Room: {
-          select: {
-            name: true,
-            price: true,
+          include: {
+            RoomImages: true,
           },
         },
         User: {
