@@ -1,6 +1,7 @@
 import { getReservations } from "@/lib/data/reservation";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import Link from "next/link";
+import { IoMdEye } from "react-icons/io";
 
 export default async function ReservationTable() {
   const reservations = await getReservations();
@@ -54,14 +55,14 @@ export default async function ReservationTable() {
               </td>
               <td className="px-6 py-4">{reservation.Payment?.status}</td>
               <td className="px-6 py-4 text-right">
-                {/* <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-1">
                   <Link
-                    href={`/admin/contact/detail/${contact.id}`}
+                    href={`/myreservation/${reservation.id}`}
                     className="rounded-sm p-1 hover:bg-gray-200"
                   >
                     <IoMdEye className="size-5" />
                   </Link>
-                </div> */}
+                </div>
               </td>
             </tr>
           ))}
