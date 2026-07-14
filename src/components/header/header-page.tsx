@@ -38,7 +38,7 @@ export default function HeaderPage({
         <Breadcrumb className="mt-4">
           <BreadcrumbList>
             {breadcrumbs.map((item, index) => (
-              <div key={index} className="flex items-center">
+              <div key={index} className="text-lg flex items-center">
                 <BreadcrumbItem>
                   {item.href ? (
                     <BreadcrumbLink asChild>
@@ -57,7 +57,7 @@ export default function HeaderPage({
                 </BreadcrumbItem>
 
                 {index < breadcrumbs.length - 1 && (
-                  <BreadcrumbSeparator className="text-gray-400" />
+                  <BreadcrumbSeparator className="ml-2 text-gray-400" />
                 )}
               </div>
             ))}

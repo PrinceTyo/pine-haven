@@ -13,7 +13,10 @@ export default async function MyReservationDetail({
     <div className="min-h-screen bg-slate-50">
       <HeaderPage
         title="Reservation Detail"
-        subtitle="Lorem ipsum dolor sit amet."
+        breadcrumbs={[
+          { label: "My Reservation", href: "/myreservation" },
+          { label: "Reservation Detail" },
+        ]}
       />
       <div className="max-w-5xl mx-auto py-20 px-4">
         <Suspense fallback={<p>Loading...</p>}>

@@ -12,7 +12,10 @@ export default async function RoomPage() {
     <div>
       <HeaderPage
         title="Rooms & Rates"
-        subtitle="Lorem ipsum dolor sit amet."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Rooms", href: "/room" },
+        ]}
       />
       <div className="mt-10 px-4">
         <Suspense fallback={<p>Loading...</p>}>

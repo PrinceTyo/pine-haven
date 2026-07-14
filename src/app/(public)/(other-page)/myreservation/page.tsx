@@ -68,7 +68,10 @@ export default async function MyReservationPage() {
     <>
       <HeaderPage
         title="My Reservation"
-        subtitle="Lorem ipsum dolor sit amet."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "My Reservation", href: "/myreservation" },
+        ]}
       />
       <div className="min-h-screen bg-[#F4F5F2]">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:py-20">

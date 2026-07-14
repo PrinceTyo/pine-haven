@@ -10,7 +10,14 @@ export default async function RoomDetailPage({
   const roomId = (await params).roomId;
   return (
     <>
-      <HeaderPage title="Room Details" subtitle="Lorem ipsum dolor sit amet." />
+      <HeaderPage
+        title="Room Details"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Rooms", href: "/room" },
+          { label: "Room Details" },
+        ]}
+      />
       <div className="mt-16">
         <Suspense fallback={<p>Loading...</p>}>
           <RoomDetail roomId={roomId} />

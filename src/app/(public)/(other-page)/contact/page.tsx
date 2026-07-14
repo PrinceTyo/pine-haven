@@ -9,7 +9,13 @@ import ContactForm from "./_components/contact-form";
 export default function ContactPage() {
   return (
     <section>
-      <HeaderPage title="Contact Us" subtitle="Lorem ipsum dolor sit amet." />
+      <HeaderPage
+        title="Contact Us"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Contact", href: "/contact" },
+        ]}
+      />
       <div className="max-w-7xl mx-auto py-20 px-4">
         <div className="flex items-center justify-center gap-4">
           <div className="w-80 text-center p-10 flex flex-col items-center justify-center gap-2 shadow-md border border-gray-100">

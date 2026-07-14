@@ -6,7 +6,13 @@ import AwwardSection from "./_components/sections/awward-section";
 export default function AboutPage() {
   return (
     <div>
-      <HeaderPage title="About Us" subtitle="Lorem ipsum dolor sit amet." />
+      <HeaderPage
+        title="About Us"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+        ]}
+      />
       <AboutSection />
       <FeaturesSection />
       <AwwardSection />

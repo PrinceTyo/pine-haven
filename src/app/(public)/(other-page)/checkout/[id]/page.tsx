@@ -13,7 +13,7 @@ export default async function CheckoutPage({
     <>
       <HeaderPage
         title="Checkout Detail"
-        subtitle="Lorem ipsum dolor sit amet."
+        breadcrumbs={[{ label: "Checkout Detail" }]}
       />
       <div className="max-w-7xl px-4 mx-auto py-20">
         <h1 className="text-2xl font-semibold mb-8">Reservation Summary</h1>
