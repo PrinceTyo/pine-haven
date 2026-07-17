@@ -1,6 +1,8 @@
+import Alert from "@/components/alert/alert";
 import RoomTable from "@/components/table/room-table";
 import Link from "next/link";
 import { Suspense } from "react";
+import { getFlash } from "@/lib/flash";
 
 export default async function RoomPage({
   searchParams,
@@ -8,6 +10,7 @@ export default async function RoomPage({
   searchParams: Promise<{ sort?: string }>;
 }) {
   const { sort } = await searchParams;
+  const flash = await getFlash();
 
   return (
     <div className="w-full px-4 py-4">
@@ -20,6 +23,7 @@ export default async function RoomPage({
           Create New
         </Link>
       </div>
+      {flash && <Alert type={flash.type} message={flash.message} />}
       <Suspense fallback={<p>Loading Data....</p>}>
         <RoomTable sort={sort} />
       </Suspense>

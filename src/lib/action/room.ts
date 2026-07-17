@@ -3,15 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
 import { RoomSchema } from "@/schema/room-schema";
 import { deleteImage } from "@/lib/delete-image";
 import path from "path";
 import fs from "fs/promises";
-import { ContactSchema } from "@/schema/contact-schema";
-import { differenceInCalendarDays } from "date-fns";
-import { ReserveSchema } from "@/schema/reserve-schema";
-import { invoiceClient } from "@/lib/xendit";
+import { flash } from "@/lib/flash";
 
 export const saveRoom = async (
   images: {
@@ -68,6 +64,8 @@ export const saveRoom = async (
         },
       },
     });
+
+    await flash("success", "Room created successfully!");
   } catch (error) {
     console.log(error);
   }
@@ -92,6 +90,7 @@ export const deleteRoom = async (id: string) => {
     await prisma.room.delete({
       where: { id },
     });
+    await flash("success", "Room deleted successfully!");
   } catch (error) {
     console.log(error);
   }
@@ -210,6 +209,7 @@ export const updateRoom = async (
         })),
       });
     });
+    await flash("success", "Room updated successfully!");
   } catch (error) {
     console.log(error);
 

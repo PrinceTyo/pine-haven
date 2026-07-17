@@ -8,6 +8,14 @@ export async function middleware(request: NextRequest) {
   const isLoggedIn = !!session?.user;
   const role = session?.user.role;
   const { pathname } = request.nextUrl;
+  const hasFlash = request.cookies.has("__flash");
+
+  const clearFlash = (response: NextResponse) => {
+    if (hasFlash) {
+      response.cookies.delete("__flash");
+    }
+    return response;
+  };
 
   if (
     !isLoggedIn &&
