@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
 import "@/styles/globals.css";
 import AppSidebar from "@/components/layout/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import HeaderAdmin from "@/components/header/header-admin";
 
 export default async function AdminLayout({
   children,
@@ -24,11 +25,11 @@ export default async function AdminLayout({
       <SidebarProvider>
         <AppSidebar session={session} />
 
-        <main className="flex-1">
-          <SidebarTrigger />
+        <div className="flex flex-1 flex-col">
+          <HeaderAdmin />
 
-          <div className="p-6">{children}</div>
-        </main>
+          <main className="flex-1 p-6">{children}</main>
+        </div>
       </SidebarProvider>
     </TooltipProvider>
   );

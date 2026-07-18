@@ -12,13 +12,13 @@ type AlertProps = {
 export default function Alert({ type, message }: AlertProps) {
   const [open, setOpen] = useState(true);
 
-  //   useEffect(() => {
-  //     const timer = setTimeout(() => {
-  //       setOpen(false);
-  //     }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpen(false);
+    }, 5000);
 
-  //     return () => clearTimeout(timer);
-  //   }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!open) return null;
 
