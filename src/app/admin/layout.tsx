@@ -25,7 +25,7 @@ export default async function AdminLayout({
       <SidebarProvider>
         <AppSidebar session={session} />
 
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col bg-gray-100">
           <HeaderAdmin />
 
           <main className="flex-1 p-6">{children}</main>

@@ -11,14 +11,14 @@ export default async function RoomTable({ sort }: { sort?: string }) {
   if (!rooms?.length) return <p>No Room Found</p>;
 
   return (
-    <div className="bg-white p-4 mt-5 shadow-sm">
-      <table className="w-full divide-y divide-gray-200">
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border border-gray-200 shadow-md">
         <thead>
-          <tr>
-            <th className="px-6 py-3 w-32 text-sm font-bold text-gray-700 uppercase text-left">
+          <tr className="bg-gray-100">
+            <th className="px-6 py-3 w-32 text-left text-sm font-bold text-gray-600 border-b">
               Image
             </th>
-            <th className="px-6 py-3 text-sm font-bold text-gray-700 uppercase text-left">
+            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 border-b">
               <Link
                 href="?sort=name"
                 className="flex items-center gap-1 hover:text-primary"
@@ -27,7 +27,7 @@ export default async function RoomTable({ sort }: { sort?: string }) {
                 <ArrowUpDown className="size-4" />
               </Link>
             </th>
-            <th className="px-6 py-3 text-sm font-bold text-gray-700 uppercase text-left">
+            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 border-b">
               <Link
                 href="?sort=price"
                 className="flex items-center gap-1 hover:text-primary"
@@ -36,10 +36,10 @@ export default async function RoomTable({ sort }: { sort?: string }) {
                 <ArrowUpDown className="size-4" />
               </Link>
             </th>
-            <th className="px-6 py-3 text-sm font-bold text-gray-700 uppercase text-left">
+            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 border-b">
               Created At
             </th>
-            <th className="px-6 py-3 text-sm font-bold text-gray-700 uppercase">
+            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 border-b">
               Action
             </th>
           </tr>

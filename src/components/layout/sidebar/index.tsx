@@ -16,6 +16,7 @@ import {
 import { AppTitle } from "./app-title";
 import { NavUser } from "./nav-user";
 import { Session } from "next-auth";
+import { Separator } from "@/components/ui/separator";
 
 const navItems = [
   {
@@ -45,10 +46,11 @@ export default function AppSidebar({ session }: { session: Session | null }) {
 
   return (
     <Sidebar className="rounded-lg!">
-      <SidebarHeader>
+      <SidebarHeader className="bg-white">
         <AppTitle />
+        <Separator />
       </SidebarHeader>
-      <SidebarContent className="">
+      <SidebarContent className="bg-white">
         <div className="px-3 py-4">
           <SidebarMenu className="space-y-3">
             {navItems.map((item) => {
@@ -78,7 +80,7 @@ export default function AppSidebar({ session }: { session: Session | null }) {
           </SidebarMenu>
         </div>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="bg-white">
         <NavUser session={session} />
       </SidebarFooter>
       <SidebarRail />
